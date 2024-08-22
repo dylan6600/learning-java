@@ -1,0 +1,29 @@
+server:
+  # ????
+  port: 8080
+
+spring:
+  # ???? UTF8
+  mandatory-file-encoding: UTF-8
+  mvc:
+    # ??Springfox??????
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: true
+  freemarker:
+    check-template-location: false
+
+knife4j:
+  # ??????
+  enable: true
+  # ????????
+  production: false
+
+websocket:
+  # ????
+  enable: true
+  # ???????
+  intercept: true
