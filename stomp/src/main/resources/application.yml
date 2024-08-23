@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+spring:
+  mandatory-file-encoding: UTF-8
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: true
+  freemarker:
+    check-template-location: false
