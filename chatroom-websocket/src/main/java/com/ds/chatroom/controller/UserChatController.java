@@ -1,5 +1,6 @@
 package com.ds.chatroom.controller;
 
+import cn.hutool.jwt.JWT;
 import com.ds.chatroom.domain.InMessage;
 import com.ds.chatroom.domain.User;
 import com.ds.chatroom.service.WebSocketService;
@@ -51,6 +52,29 @@ public class UserChatController {
             return "redirect:/user/chat.html";
         } else {
             return "redirect:/user/error.html";
+        }
+    }
+
+    @RequestMapping(value = "/login-jwt", method = RequestMethod.POST)
+    public String userLogin2(@RequestParam(value = "username") String username
+            , @RequestParam(value = "pwd") String pwd
+            , HttpSession session) {
+        String password = userMap.get(username);
+        if (pwd.equals(password)) {
+            User user = new User(username, pwd);
+            String sessionId = session.getId();
+            onlineUser.put(sessionId, user);
+
+            byte[] key = "1234567890".getBytes();
+            String token = JWT.create()
+                    .setPayload("username", username)
+                    .setPayload("admin", false)
+                    .setKey(key)
+                    .sign();
+            log.info(token);
+            return "redirect:/user-jwt/chat.html?token="+token;
+        } else {
+            return "redirect:/user-jwt/error.html";
         }
     }
 
