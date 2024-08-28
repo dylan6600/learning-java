@@ -41,7 +41,7 @@ public class GameInfoController {
     @Scheduled(fixedRate = 3000)
     @MessageMapping("/v2/schedule/push")
     public void sendStock() {
-        webSocketService.getStock("sh600519");
+        webSocketService.sendStock("sh600519");
     }
 
 

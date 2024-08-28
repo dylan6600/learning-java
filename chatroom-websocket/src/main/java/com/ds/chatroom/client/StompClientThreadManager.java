@@ -10,7 +10,6 @@ import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandler;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
@@ -27,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Slf4j
-@Component
+//@Component
 public class StompClientThreadManager {
     private Thread thread;
     private final AtomicBoolean running = new AtomicBoolean(false);
@@ -110,13 +109,13 @@ public class StompClientThreadManager {
                     @Override
                     public void handleFrame(StompHeaders headers, Object payload) {
                         //消息处理
-                        log.info("接收到的消息：" + payload.toString());
+                        log.info("接收到的消息：" + new String((byte[]) payload));
                     }
                 });
 
                 if (stompSession.isConnected()) {
                     log.info("send test");
-                    stompSession.send("/app/v2/schedule/push", new InMessage("test").toString());
+                    stompSession.send("/app/v2/schedule/push", new InMessage("test").toString().getBytes());
                     log.info("连接成功");
                 }
             } catch (Exception e) {

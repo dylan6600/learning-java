@@ -45,7 +45,7 @@ public class WebSocketService {
      *
      * @param stockCode
      */
-    public void getStock(String stockCode) {
+    public void sendStock(String stockCode) {
         String url = "https://hq.sinajs.cn/etag.php?_=" + System.currentTimeMillis() + "&list=" + stockCode;
         String result1 = HttpRequest.get(url)
                 .header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36")
@@ -54,6 +54,7 @@ public class WebSocketService {
                 .execute().body();
         String[] re = result1.split(",");
         String ret = String.format("股票代码:%s,股票名称:%s,最新价格:%s", stockCode, re[0].split("\"")[1], re[3]);
+        log.info("send msg:" + ret);
         if (!StringUtils.isEmpty(ret)) {
             template.convertAndSend("/topic/stock", new OutMessage(ret));
         }
